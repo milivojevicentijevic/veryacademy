@@ -47,10 +47,51 @@ if(isset($_POST['title']) && isset($_POST['content'])) {
             // now check if data had been inserted
             if($insert_query) : ?>
                 <script>alert('Data inserted');window.location.href = 'index.php';</script>
-            <?php else: ?>
+                <?php
+                exit;
+            else: ?>
                 <h3>Data was not inserted</h3>
             <?php endif;
         }
+
+    } else { ?>
+        <h4>Plese fill all fields</h4>
+    <?php }
+}
+
+// update.php - collect data 
+function update_get() {
+    if(isset($_GET['id']) && is_numeric($_GET['id'])) {
+        global $conn;
+        $id = $_GET['id'];
+        $sql = "SELECT * FROM posts WHERE id='$id'";
+        $get_id = mysqli_query($conn, $sql);
+
+        if(mysqli_num_rows($get_id) === 1) {
+            $row = mysqli_fetch_assoc($get_id);
+            return($row);
+        }
+    }
+}
+
+// update.php - update data
+if(isset($_POST['update_title']) && isset($_POST['update_content'])) {
+    // check if items are empty
+    if (!empty($_POST['update_title']) && !empty($_POST['update_content'])) {
+        // escape special characters.
+        $title = mysqli_real_escape_string($conn, htmlspecialchars($_POST['update_title']));
+        $content = mysqli_real_escape_string($conn, htmlspecialchars($_POST['update_content']));
+        $id = $_GET['id'];
+        $sql = "UPDATE posts SET title='$title', content='$content' WHERE id=$id";
+        $update_query = mysqli_query($conn, $sql);
+
+        if($update_query): ?>
+            <script>alert('Post updated');window.location.href = 'index.php';</script>
+            <?php
+            exit;
+         else: ?>
+            <h3>Sorry, that didn't work</h3>
+        <?php endif;
 
     } else { ?>
         <h4>Plese fill all fields</h4>
