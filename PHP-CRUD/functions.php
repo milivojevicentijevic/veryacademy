@@ -29,4 +29,31 @@ function get_all_data() {
         <h3>Our database is not working.</h3>
     <?php endif; 
 }
+
+if(isset($_POST['title']) && isset($_POST['content'])) {
+    // check title and content empty or not
+    if (!empty($_POST['title']) && !empty($_POST['content'])) {
+        // escape special characters.
+        $title = mysqli_real_escape_string($conn, htmlspecialchars($_POST['title']));
+        $content = mysqli_real_escape_string($conn, htmlspecialchars($_POST['content']));
+        // check if title already exists
+        $check_content = mysqli_query($conn, "SELECT 'title' FROM posts WHERE content='$title'");
+        if (mysqli_num_rows($check_content) > 0) {
+            echo "<h3>This title already exists - please try a different title name</h3>";
+        } else {
+            // insert data into database
+            $sql = "INSERT INTO posts (title, content) VALUES ('$title','$content')";
+            $insert_query = mysqli_query($conn, $sql);
+            // now check if data had been inserted
+            if($insert_query) : ?>
+                <script>alert('Data inserted');window.location.href = 'index.php';</script>
+            <?php else: ?>
+                <h3>Data was not inserted</h3>
+            <?php endif;
+        }
+
+    } else { ?>
+        <h4>Plese fill all fields</h4>
+    <?php }
+}
 ?>
