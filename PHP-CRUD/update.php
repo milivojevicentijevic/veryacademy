@@ -1,6 +1,6 @@
 <?php
     require_once 'functions.php';
-    include ('header.php');
+    include ('parts/header.php');
     $row = update_get();
 ?>
 <div class="container">
@@ -22,5 +22,5 @@
     </div>
 </div>
 <?php
-    include ('footer.php');
+    include ('parts/footer.php');
 ?>

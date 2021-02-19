@@ -1,6 +1,6 @@
 <?php
     require_once 'functions.php';
-    include ('header.php');
+    include ('parts/header.php');
 ?>
 <div class="container">
     <div class="row">
@@ -8,5 +8,5 @@
     </div>
 </div>
 <?php
-    include ('footer.php');
+    include ('parts/footer.php');
 ?>
